@@ -1,12 +1,11 @@
-FROM debian:wheezy
+FROM ubuntu:trusty
 
-MAINTAINER blacktop, https://github.com/blacktop
+MAINTAINER Travis Holton <travis@ideegeo.com>
 
 RUN echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
     chmod +x /usr/sbin/policy-rc.d
 
-ENV KIBANA_VERSION 3.1.1
-# ENV NGINX_VERSION 1.7.5-1~wheezy
+ENV KIBANA_VERSION 3.1.2
 
 # Install Required Dependancies
 RUN \
@@ -42,12 +41,16 @@ RUN \
   sed -i 's/9200"/"+ window.location.port/g' /var/www/kibana/config.js && \
   rm kibana-$KIBANA_VERSION.tar.gz
 
+RUN echo "script.disable_dynamic: true" >> /etc/elasticsearch/elasticsearch.yml
+RUN mkdir -p /usr/share/elasticsearch/config
+RUN cp /etc/elasticsearch/*.yml /usr/share/elasticsearch/config/
+
 ADD supervisord.conf /etc/supervisor/conf.d/
 
 VOLUME ["/etc/logstash/conf.d"]
-VOLUME ["/opt/kibana-3.1.1/app/dashboards"]
+VOLUME ["/opt/kibana-3.1.2/app/dashboards"]
 VOLUME ["/etc/nginx"]
 
 EXPOSE 80 443
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord -c /etc/supervisor/supervisord.conf"]
