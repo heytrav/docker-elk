@@ -46,6 +46,8 @@ RUN mkdir -p /usr/share/elasticsearch/config
 RUN cp /etc/elasticsearch/*.yml /usr/share/elasticsearch/config/
 
 ADD supervisord.conf /etc/supervisor/conf.d/
+ADD logstash/* /etc/logstash/conf.d/
+
 
 VOLUME ["/etc/logstash/conf.d"]
 VOLUME ["/opt/kibana-3.1.2/app/dashboards"]
@@ -53,4 +55,4 @@ VOLUME ["/etc/nginx"]
 
 EXPOSE 80 443
 
-CMD ["/usr/bin/supervisord -c /etc/supervisor/supervisord.conf"]
+CMD ["/usr/bin/supervisord"]
