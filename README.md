@@ -6,7 +6,7 @@ This repository contains a **Dockerfile** of [ELK](http://www.elasticsearch.org/
 
 ### Dependencies
 
-* [debian:wheezy](https://index.docker.io/_/debian/)
+* ubuntu:trusty
 
 ### Installation
 
