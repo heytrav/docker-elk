@@ -46,6 +46,8 @@ RUN mkdir -p /usr/share/elasticsearch/config
 RUN cp /etc/elasticsearch/*.yml /usr/share/elasticsearch/config/
 
 ADD supervisord.conf /etc/supervisor/conf.d/
+WORKDIR /usr/local/d8o/docker-elk
+ADD . /usr/local/d8o/docker-elk
 
 
 VOLUME ["/etc/logstash/conf.d"]
