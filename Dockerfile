@@ -41,7 +41,7 @@ RUN \
   sed -i 's/9200"/"+ window.location.port/g' /var/www/kibana/config.js && \
   rm kibana-$KIBANA_VERSION.tar.gz
 
-RUN echo "script.disable_dynamic: true\nnetwork.host: localhost\n" >> /etc/elasticsearch/elasticsearch.yml
+RUN echo "script.disable_dynamic: true" >> /etc/elasticsearch/elasticsearch.yml
 RUN mkdir -p /usr/share/elasticsearch/config
 RUN cp /etc/elasticsearch/*.yml /usr/share/elasticsearch/config/
 
