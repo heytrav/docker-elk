@@ -17,10 +17,9 @@ RUN \
   echo 'deb http://packages.elasticsearch.org/logstash/1.4/debian stable main' \
     >> /etc/apt/sources.list && \
   apt-get -qq update && \
-  apt-get -qy install  elasticsearch\
-                      supervisor \
+  apt-get -qy install supervisor \
                       logstash \
-                      nginx \
+                      nginx curl \
                       unzip && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -42,13 +41,7 @@ RUN \
   sed -i 's/"http:/"https:/g' /var/www/kibana/config.js && \
   rm kibana-$KIBANA_VERSION.tar.gz
 
-RUN echo "script.disable_dynamic: true" >> /etc/elasticsearch/elasticsearch.yml
-RUN mkdir -p /usr/share/elasticsearch/config
-RUN cp /etc/elasticsearch/*.yml /usr/share/elasticsearch/config/
-
 ADD supervisord.conf /etc/supervisor/conf.d/
-WORKDIR /usr/local/d8o/docker-elk
-ADD . /usr/local/d8o/docker-elk
 
 
 VOLUME ["/etc/logstash/conf.d"]
