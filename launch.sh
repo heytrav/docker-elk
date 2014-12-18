@@ -4,6 +4,7 @@
 docker stop docker-elk && docker rm docker-elk
 #docker run -i -t  \
 docker run -d  \
+    -p 9090:443 \
     -p 8080:80 \
     -p 5004:5004 \
     --name docker-elk \
