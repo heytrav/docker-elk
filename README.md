@@ -8,6 +8,12 @@ This repository provides some of the parts needed to set up a working Elasticsea
      ```
      % mkdir -p data/{certs,private,elasticsearch}
      ```
+3. In `~/data` run: 
+
+     ```
+     % openssl req -x509 -batch -nodes -days 3650 -newkey rsa:2048 \
+         -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt
+     ```
 2. Create `~/data/elasticsearch/elasticsearch.yml` with the following content:
 
 
@@ -15,12 +21,6 @@ This repository provides some of the parts needed to set up a working Elasticsea
      path:
          logs: /data/log
          data: /data/data
-     ```
-3. In `~/data` run: 
-
-     ```
-     % openssl req -x509 -batch -nodes -days 3650 -newkey rsa:2048 \
-         -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt
      ```
 4. In `docker_vm` run `vagrant reload --provision` to make sure that `/data` gets mounted on the host.
 5. Pull the latest `docker.domarino.com/iwmn-python3.4`
