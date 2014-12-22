@@ -13,7 +13,6 @@ Following is a rough outline of the steps needed to get the *ELK* setup working 
 
 
      ```yaml
-     script.disable_dynamic: true
      path:
          logs: /data/log
          data: /data/data
@@ -39,12 +38,12 @@ Following is a rough outline of the steps needed to get the *ELK* setup working 
       /elasticsearch/bin/elasticsearch \
       -Des.config=/data/elasticsearch/elasticsearch.yml
      ```
-This should start a container with the elastic server running and listening for logs to be fed into it. It should start feeding stuff into `~/data/data` and `~/data/logs`.
+This should start a container with the elastic server running and listening for logs to be fed into it. It will write this data into `~/data/data` and `~/data/logs`.
 
 7. Build this container: `docker build -t docker-elk .`
 
 8. Launch the container: `./launch.sh`
 
-9. Launch any other repositories that are set up to forward to logstash
-  * `api`
-  * `rabbitpy`
+9. Launch any other repositories that are set up to forward to logstash. Currently these include:
+  * `api` (merge pending)
+  * `rabbitpy` (merge pending)
