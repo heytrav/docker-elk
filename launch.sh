@@ -2,14 +2,13 @@
 
 docker stop elasticsearch && docker rm elasticsearch
 
- docker run -h elasticsearch \
-  --name elasticsearch -d \
+ docker run -h elasticsearch -d \
+  --name elasticsearch  \
   -p 9200:9200 \
   -p 9300:9300 \
   -v /data:/data \
-  iwmn-es \
-  /elasticsearch/bin/elasticsearch \
-  -Des.config=/data/elasticsearch/elasticsearch.yml
+  dockerfile/elasticsearch \
+  /elasticsearch/bin/elasticsearch  -Des.config=/data/elasticsearch/elasticsearch.yml
 
 docker stop docker-elk && docker rm docker-elk
 #docker run -i -t  \
