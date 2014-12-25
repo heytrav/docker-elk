@@ -43,6 +43,8 @@ RUN \
 
 ADD supervisord.conf /etc/supervisor/conf.d/
 
+WORKDIR /usr/local/d8o/docker-elk
+ADD patterns /usr/local/d8o/docker-elk/patterns
 
 VOLUME ["/etc/logstash/conf.d"]
 VOLUME ["/opt/kibana-3.1.2/app/dashboards"]
