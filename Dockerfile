@@ -6,6 +6,7 @@ RUN echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
     chmod +x /usr/sbin/policy-rc.d
 
 ENV KIBANA_VERSION 3.1.2
+ENV LOGSTASH_VERSION 1.4.2
 
 # Install Required Dependancies
 RUN \
@@ -26,6 +27,7 @@ RUN \
 
 # Install Kibana and Configure Nginx
 ADD https://download.elasticsearch.org/kibana/kibana/kibana-$KIBANA_VERSION.tar.gz /opt/
+ADD http://download.elasticsearch.org/logstash/logstash/logstash-contrib-$LOGSTASH_VERSION.tar.gz /opt/
 ADD kibana.conf /etc/nginx/sites-available/
 RUN \
   mkdir -p /var/www && \
@@ -36,6 +38,7 @@ RUN \
   ln -s /etc/nginx/sites-available/kibana.conf \
     /etc/nginx/sites-enabled/kibana.conf && \
   cd /opt && tar xzf kibana-$KIBANA_VERSION.tar.gz && \
+  cd /opt && tar xvzf  logstash-contrib-$LOGSTASH_VERSION.tar.gz -C logstash --strip-components=1 && \
   ln -s /opt/kibana-$KIBANA_VERSION /var/www/kibana && \
   sed -i 's/9200"/"+ window.location.port/g' /var/www/kibana/config.js && \
   sed -i 's/"http:/"https:/g' /var/www/kibana/config.js && \
