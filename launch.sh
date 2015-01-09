@@ -15,6 +15,7 @@ docker stop docker-elk && docker rm docker-elk
 docker run -d  \
     -p 9090:443 \
     -p 5004:5004 \
+    -p 25826:25826 \
     --link elasticsearch:elasticsearch \
     --name docker-elk \
     -h docker-elk \
