@@ -5,8 +5,11 @@ OPTIND=1
 INTERACTIVE_ARGS="-d"
 INTERACTIVE=0
 CMD=
-while getopts "ic:h" opt; do
+while getopts "iec:h" opt; do
     case "$opt" in
+        e)
+            ELASTICSEARCH=1
+            ;;
         c)
             CMD=$OPTARG
             ;;
@@ -20,15 +23,18 @@ while getopts "ic:h" opt; do
     esac
 done
 
-docker stop elasticsearch && docker rm elasticsearch
+if [ $ELASTICSEARCH ]; then
+    docker stop elasticsearch && docker rm elasticsearch
 
- docker run -h elasticsearch -d \
-  --name elasticsearch  \
-  -p 9200:9200 \
-  -p 9300:9300 \
-  -v /data:/data \
-  dockerfile/elasticsearch \
-  /elasticsearch/bin/elasticsearch  -Des.config=/data/elasticsearch/elasticsearch.yml
+    docker run -h elasticsearch -d \
+    --name elasticsearch  \
+    -p 9200:9200 \
+    -p 9300:9300 \
+    --volumes-from elasticsearch-data \
+    dockerfile/elasticsearch \
+    /elasticsearch/bin/elasticsearch  -Des.config=/usr/local/d8o/elasticsearch/elasticsearch.yml
+
+fi
 
 docker stop docker-elk && docker rm docker-elk
 
@@ -40,5 +46,5 @@ docker run $INTERACTIVE_ARGS  \
     --name docker-elk \
     -h docker-elk \
     -v /usr/local/d8o/docker-elk/logstash:/etc/logstash/conf.d:r \
-    -v /data:/usr/local/d8o/data \
+    --volumes-from logstash-data \
     docker-elk $CMD
