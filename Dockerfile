@@ -20,7 +20,9 @@ RUN \
   apt-get -qq update && \
   apt-get -qy install supervisor \
                       logstash \
-                      nginx curl \
+                      nginx \
+                      curl \
+                      python-pip \
                       unzip && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -42,9 +44,11 @@ RUN \
   ln -s /opt/kibana-$KIBANA_VERSION /var/www/kibana && \
   sed -i 's/9200"/"+ window.location.port/g' /var/www/kibana/config.js && \
   sed -i 's/"http:/"https:/g' /var/www/kibana/config.js && \
+  pip install elasticsearch-curator && \
   rm kibana-$KIBANA_VERSION.tar.gz
 
 ADD supervisord.conf /etc/supervisor/conf.d/
+ADD crons/ /etc/cron.hourly/
 
 WORKDIR /usr/local/d8o/docker-elk
 ADD patterns /usr/local/d8o/docker-elk/patterns
