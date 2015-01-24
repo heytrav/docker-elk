@@ -32,7 +32,7 @@ if [ $ELASTICSEARCH ]; then
     -p 9300:9300 \
     --volumes-from elasticsearch-data \
     dockerfile/elasticsearch \
-    /elasticsearch/bin/elasticsearch  -Des.config=/usr/local/d8o/elasticsearch/elasticsearch.yml
+    /elasticsearch/bin/elasticsearch -Des.config=/usr/local/d8o/elasticsearch/elasticsearch.json
 
 fi
 
